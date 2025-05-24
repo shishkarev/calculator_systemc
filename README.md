@@ -42,7 +42,7 @@ calculator_systemc/
    ```
 3. Запустите симуляцию:
    ```bash
-   ./bin/simple_calculator
+   ./bin/simple_calculator_nb
    ```
 
 ## Пример работы
