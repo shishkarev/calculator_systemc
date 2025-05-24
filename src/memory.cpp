@@ -61,17 +61,29 @@ unsigned int Memory::transport_dbg(tlm::tlm_generic_payload& trans) {
 }
 
 void Memory::write(uint32_t addr, const uint8_t* buf, uint32_t size) {
-    if (addr + size > data.size()) return;
+    if (addr + size > data.size()) {
+        throw std::out_of_range("Memory write: address " + std::to_string(addr) + 
+                              " with size " + std::to_string(size) + 
+                              " exceeds memory size " + std::to_string(data.size()));
+    }
     memcpy(&data[addr], buf, size);
 }
 
 void Memory::write(uint32_t addr, uint32_t value) {
-    if (addr + sizeof(value) > data.size()) return;
+    if (addr + sizeof(value) > data.size()) {
+        throw std::out_of_range("Memory write: address " + std::to_string(addr) + 
+                              " with size " + std::to_string(sizeof(value)) + 
+                              " exceeds memory size " + std::to_string(data.size()));
+    }
     memcpy(&data[addr], &value, sizeof(value));
 }
 
 uint32_t Memory::read(uint32_t addr) {
-    if (addr + sizeof(uint32_t) > data.size()) return 0;
+    if (addr + sizeof(uint32_t) > data.size()) {
+        throw std::out_of_range("Memory read: address " + std::to_string(addr) + 
+                              " with size " + std::to_string(sizeof(uint32_t)) + 
+                              " exceeds memory size " + std::to_string(data.size()));
+    }
     uint32_t value;
     memcpy(&value, &data[addr], sizeof(value));
     return value;
